@@ -1,0 +1,24 @@
+.myTab {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  .tabItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-grow: 1;
+    .tabIcon {
+      width: 30px;
+      img {
+        border-radius: 30px;
+        width: 100%;
+      }
+    }
+  }
+  .active {
+    color: #2196f3;
+  }
+}
