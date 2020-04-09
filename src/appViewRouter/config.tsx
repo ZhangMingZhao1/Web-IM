@@ -30,25 +30,25 @@ const My = (props: any) => {
 
 const routes = [
   {
-    path: '/',
+    path: '/app',
     exact: true,
     key: 'default',
     component: Home,
   },
   {
-    path: '/home',
+    path: '/app/home',
     exact: true,
     key: 'home',
     component: Home,
   },
   {
-    path: '/search',
+    path: '/app/search',
     exact: true,
     key: 'search',
     component: Search,
   },
   {
-    path: '/my',
+    path: '/app/my',
     exact: true,
     key: 'my',
     component: My,

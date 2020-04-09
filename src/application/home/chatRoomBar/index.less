@@ -1,0 +1,42 @@
+.chatRoomBar {
+  display: flex;
+  flex-direction: row;
+  // width: 100%;
+  height: 56px;
+  padding: 0 10px;
+
+  .avatar {
+    width: 50px;
+    img {
+      width: 100%;
+      border-radius: 8px;
+    }
+  }
+  .midContent {
+    padding-left: 20px;
+    height: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    .name {
+      font-size: 15px;
+      height: 24px;
+      line-height: 24px;
+      color: black;
+    }
+    .last {
+      font-size: 14px;
+      line-height: 1.5;
+      color: rgba(0, 0, 0, 0.54);
+    }
+  }
+  .chatIcon {
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1509759",
+      "name": "笑脸",
+      "font_class": "smile",
+      "unicode": "e673",
+      "unicode_decimal": 58995
+    },
+    {
+      "icon_id": "4406941",
+      "name": "相机",
+      "font_class": "xiangji",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "7463942",
+      "name": "问号",
+      "font_class": "wenhao",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "13882852",
+      "name": "tuikuan",
+      "font_class": "tubiao-",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    }
+  ]
+}
