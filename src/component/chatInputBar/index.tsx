@@ -8,22 +8,27 @@ export default function ChatInputBar() {
   const emojiDom = useRef(null);
   useEffect(() => {
     bindEmojiClick();
+    return () => {
+      if (emojiDom) {
+        (emojiDom as any).current.removeEventListener('click', handle);
+      }
+    };
   }, []);
   const imgupload = () => {};
   const handleTips = () => {};
   const handleGithub = () => {};
   const submess = () => {};
   const fileup = () => {};
-
+  const handle = (e: any) => {
+    let target = e.target || e.srcElement;
+    if (!!target && target.tagName.toLowerCase() === 'span') {
+      setchatValue(chatValue + target.innerHTML);
+    }
+    e.stopPropagation();
+  };
   const bindEmojiClick = () => {
     if (emojiDom) {
-      (emojiDom as any).current.addEventListener('click', (e: any) => {
-        let target = e.target || e.srcElement;
-        if (!!target && target.tagName.toLowerCase() === 'span') {
-          setchatValue(chatValue + target.innerHTML);
-        }
-        e.stopPropagation();
-      });
+      (emojiDom as any).current.addEventListener('click', handle);
     }
   };
   return (
