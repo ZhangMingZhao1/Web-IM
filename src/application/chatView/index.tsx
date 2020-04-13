@@ -1,8 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
-// import { inHTMLData } from 'xss-filters-es6';
+import { v4 as uuid } from 'uuid';
+import { inHTMLData } from 'utils/xss';
 import Message from 'component/message';
+import MessageList from 'application/messageList';
 import Alert from 'component/alert';
 import emoji from 'utils/emoji';
+import { queryString } from 'utils/utils';
 import MessageStore from 'store/store';
 import 'static/iconfonts/iconfont.css';
 import './index.less';
@@ -11,6 +14,12 @@ export default function ChatView() {
   const [chatValue, setchatValue] = useState('');
   const [alertFlag, setalertFlag] = useState<boolean>(false);
   const [userName, setuserName] = useState('');
+
+  const roomId = queryString(window.location.href, 'roomId');
+  const roomType = queryString(window.location.href, 'type');
+  const to = queryString(window.location.href, 'to');
+  const from = queryString(window.location.href, 'from');
+  const friendName = queryString(window.location.href, 'friendName');
 
   const myMessageStore = React.useContext(MessageStore);
 
@@ -34,25 +43,31 @@ export default function ChatView() {
         alert('请输入100字以内');
       }
     }
-    const msg = htmlXss(chatValue);
+    const msg = inHTMLData(chatValue);
 
     // if (store) {
     //   let userName = (store as any).username;
     //   setuserName(userName);
     // }
-    const roomId = '1';
-    const info = {
-      username: userName,
+
+    const { userid, src } = myMessageStore.userInfo;
+    const obj: any = {
+      username: userid,
+      src: src,
+      img: ``,
       msg,
+      to: to,
+      from: from,
+      roomType: roomType,
+      roomid: roomId,
       time: new Date(),
       type: 'text',
+      clientId: uuid(),
     };
     // 保存消息
-    myMessageStore.setMessageInfo(info, roomId);
+    myMessageStore.setMessageInfo(obj, roomId);
   };
-  const htmlXss = (str: string) => {
-    return str;
-  };
+
   const fileup = () => {};
   const handle = (e: any) => {
     let target = e.target || e.srcElement;
@@ -66,6 +81,7 @@ export default function ChatView() {
       (emojiDom as any).current.addEventListener('click', handle);
     }
   };
+
   return (
     <div className="container">
       <div className="title">
@@ -93,7 +109,8 @@ export default function ChatView() {
             </div>
           </div>
           <div>到顶啦~</div>
-          <Message />
+
+          {MessageList}
           <div className="clear"></div>
         </div>
       </div>

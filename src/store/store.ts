@@ -1,12 +1,8 @@
 import { createContext } from 'react';
 import { observable, action, computed } from 'mobx';
+import { IMessageProps } from 'typings/type';
 // import request from "@/services/newRequest";
-interface IMessageProps {
-  username: string;
-  msg: any;
-  time: any;
-  type: string;
-}
+
 interface looseObj {
   [key: string]: IMessageProps[];
 }
@@ -14,7 +10,10 @@ interface looseObj {
 class MessageStore {
   @observable roomdetail: looseObj = {};
   @observable userInfo = {
-    username: '卢本伟',
+    userid: '卢本伟',
+    src: 'src',
+    id: 'id',
+    token: 'token',
   };
 
   @action.bound setMessageInfo(messageInfo: IMessageProps, roomid: string) {
