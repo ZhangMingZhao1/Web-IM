@@ -7,8 +7,10 @@ import Alert from 'component/alert';
 import emoji from 'utils/emoji';
 import { queryString } from 'utils/utils';
 import MessageStore from 'store/store';
+import socket from 'websocket/socket';
 import 'static/iconfonts/iconfont.css';
 import './index.less';
+import { values } from 'mobx';
 
 export default function ChatView() {
   const [chatValue, setchatValue] = useState('');
@@ -27,49 +29,61 @@ export default function ChatView() {
   useEffect(() => {
     bindEmojiClick();
     return () => {
-      if (emojiDom) {
-        (emojiDom as any).current.removeEventListener('click', handle);
+      console.log('remove bindEmojiClick');
+      const cur: any = emojiDom.current;
+      if (cur) {
+        cur.removeEventListener('click', handle);
       }
     };
-  }, []);
+  });
   const goback = () => {};
   const openSimpleDialog = () => {};
   const imgupload = () => {};
   const handleTips = () => {};
   const handleGithub = () => {};
+  const chatInputChange = (value: any) => {
+    console.log('chatInputChange', value);
+    setchatValue(value);
+  };
   const submess = () => {
     if (chatValue !== '') {
       if (chatValue.length > 200) {
         alert('请输入100字以内');
       }
+
+      const msg = inHTMLData(chatValue);
+
+      // if (store) {
+      //   let userName = (store as any).username;
+      //   setuserName(userName);
+      // }
+
+      const { userid, src } = myMessageStore.userInfo;
+      const obj: any = {
+        username: userid,
+        src: src,
+        img: ``,
+        msg,
+        to: to,
+        from: from,
+        roomType: roomType,
+        roomid: roomId,
+        time: new Date(),
+        type: 'text',
+        clientId: uuid(),
+      };
+      // 保存消息
+      myMessageStore.setMessageInfo(obj, roomId);
+      socket.emit('message', obj);
+      setchatValue('');
+    } else {
+      alert('发送内容不能为空');
     }
-    const msg = inHTMLData(chatValue);
-
-    // if (store) {
-    //   let userName = (store as any).username;
-    //   setuserName(userName);
-    // }
-
-    const { userid, src } = myMessageStore.userInfo;
-    const obj: any = {
-      username: userid,
-      src: src,
-      img: ``,
-      msg,
-      to: to,
-      from: from,
-      roomType: roomType,
-      roomid: roomId,
-      time: new Date(),
-      type: 'text',
-      clientId: uuid(),
-    };
-    // 保存消息
-    myMessageStore.setMessageInfo(obj, roomId);
   };
 
   const fileup = () => {};
   const handle = (e: any) => {
+    console.log('handle');
     let target = e.target || e.srcElement;
     if (!!target && target.tagName.toLowerCase() === 'span') {
       setchatValue(chatValue + target.innerHTML);
@@ -77,6 +91,7 @@ export default function ChatView() {
     e.stopPropagation();
   };
   const bindEmojiClick = () => {
+    console.log('bindEmojiClick');
     if (emojiDom) {
       (emojiDom as any).current.addEventListener('click', handle);
     }
@@ -188,7 +203,7 @@ export default function ChatView() {
         </div>
         <div className="chat">
           <div className="input">
-            <input type="text" />
+            <input type="text" value={chatValue} onChange={chatInputChange} />
           </div>
           <button
             className="demo-raised-button"
