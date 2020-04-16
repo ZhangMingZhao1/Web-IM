@@ -19,7 +19,7 @@ function App() {
         <Route exact path="/" render={() => <Redirect to="/app/home" push />} />
         <Route path="/app" component={AppView} />
         <Route exact path="/login" component={LoginView} />
-        <Route path="/chatRoom" component={ChatView} />
+        <Route path="/chat" component={ChatView} />
       </Switch>
     </Router>
     // </StoreProvider>

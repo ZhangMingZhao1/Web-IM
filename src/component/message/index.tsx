@@ -6,7 +6,7 @@ import { IMessageProps } from 'typings/type';
 import './index.less';
 
 export default function Message(props: IMessageProps) {
-  const { isSelf, img, loading, isLast, msg } = props;
+  const { isSelf, img, loading, isLast, msg, key, username } = props;
   const maxWidth = 200;
   const maxHeight = 200;
 
@@ -52,7 +52,6 @@ export default function Message(props: IMessageProps) {
       };
     }
   };
-
   const linkMsg = () => {
     // 防止xss
     const filterValue = inHTMLData(msg);
@@ -67,9 +66,9 @@ export default function Message(props: IMessageProps) {
     );
   };
   return (
-    <div className={`clear ${isSelf ? 'right' : 'left'}`} ref="msg">
+    <div className={`clear ${isSelf ? 'right' : 'left'}`}>
       <div className="name">
-        <span v-if="mytime">{getdate}</span> &nbsp;&nbsp;{{ name }}
+        <span>{getdate()}</span> &nbsp;&nbsp;{username}
       </div>
       <div className="body">
         <div className="tip" v-if="isSelf">
@@ -84,7 +83,7 @@ export default function Message(props: IMessageProps) {
             className="head-place"
             size="small"
             src="avatar"
-            v-flex-touch="handleTouch"
+            // v-flex-touch="handleTouch"
           ></Avatar>
           {img && (
             <div>
@@ -108,7 +107,10 @@ export default function Message(props: IMessageProps) {
           )}
           {msg && (
             <span>
-              <span dangerouslySetInnerHTML={linkMsg()} className="msg"></span>
+              <span
+                dangerouslySetInnerHTML={{ __html: linkMsg() }}
+                className="msg"
+              ></span>
             </span>
           )}
         </div>

@@ -17,7 +17,12 @@ class MessageStore {
   };
 
   @action.bound setMessageInfo(messageInfo: IMessageProps, roomid: string) {
-    this.roomdetail[roomid].push(messageInfo);
+    if (this.roomdetail[roomid]) {
+      this.roomdetail[roomid].push(messageInfo);
+    } else {
+      this.roomdetail[roomid] = [];
+      this.roomdetail[roomid].push(messageInfo);
+    }
   }
 
   // 列表数据

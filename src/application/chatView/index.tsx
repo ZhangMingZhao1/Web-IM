@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { inHTMLData } from 'utils/xss';
-import Message from 'component/message';
+// import Message from 'component/message';
 import MessageList from 'application/messageList';
 import Alert from 'component/alert';
 import emoji from 'utils/emoji';
@@ -41,7 +41,8 @@ export default function ChatView() {
   const imgupload = () => {};
   const handleTips = () => {};
   const handleGithub = () => {};
-  const chatInputChange = (value: any) => {
+  const chatInputChange = (e: any) => {
+    const value = e.target.value;
     console.log('chatInputChange', value);
     setchatValue(value);
   };
@@ -110,7 +111,7 @@ export default function ChatView() {
           <div onClick={openSimpleDialog}>
             <div>人图标</div>
           </div>
-          <div v-else slot="right"></div>
+          <div slot="right"></div>
         </div>
       </div>
       <div className="chat-inner">
@@ -124,8 +125,7 @@ export default function ChatView() {
             </div>
           </div>
           <div>到顶啦~</div>
-
-          {MessageList}
+          <MessageList roomId={roomId} />
           <div className="clear"></div>
         </div>
       </div>

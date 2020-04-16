@@ -4,18 +4,19 @@ import Message from 'component/message';
 import MessageStore from 'store/store';
 import './index.less';
 interface IMessageListProps {
-  roomid: string;
+  roomId: string;
 }
 export default function MessageList(props: IMessageListProps) {
-  const { roomid } = props;
+  const { roomId } = props;
   const myMessageStore = React.useContext(MessageStore);
   const handleInfo = () => {};
   const hadnleTouch = () => {};
   const handleRetry = () => {};
   const container = {};
   const username = '';
-  const roomdetail = myMessageStore.roomdetail;
-  const MessageList = roomdetail[roomid].map((obj, index) => {
+  const roomdetailArr = myMessageStore.roomdetail[roomId] || [];
+
+  const MessageList = roomdetailArr.map((obj, index) => {
     return (
       <Message
         avatarClick={handleInfo}
@@ -35,9 +36,10 @@ export default function MessageList(props: IMessageListProps) {
         mytime={obj.time}
         obj={obj}
         container={container}
-        isLast={roomdetail[roomid].length - 1 === index}
+        isLast={roomdetailArr.length - 1 === index}
       />
     );
   });
-  return MessageList;
+  console.log(MessageList);
+  return <>{MessageList}</>;
 }
