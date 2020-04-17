@@ -3,14 +3,13 @@ import { v4 as uuid } from 'uuid';
 import { inHTMLData } from 'utils/xss';
 // import Message from 'component/message';
 import MessageList from 'application/messageList';
-import Alert from 'component/alert';
-import emoji from 'utils/emoji';
+import EmojiPanel from 'component/emojiPanel';
+
 import { queryString } from 'utils/utils';
 import MessageStore from 'store/store';
 import socket from 'websocket/socket';
 import 'static/iconfonts/iconfont.css';
 import './index.less';
-import { values } from 'mobx';
 
 export default function ChatView() {
   const [chatValue, setchatValue] = useState('');
@@ -25,17 +24,15 @@ export default function ChatView() {
 
   const myMessageStore = React.useContext(MessageStore);
 
-  const emojiDom = useRef(null);
-  useEffect(() => {
-    bindEmojiClick();
-    return () => {
-      console.log('remove bindEmojiClick');
-      const cur: any = emojiDom.current;
-      if (cur) {
-        cur.removeEventListener('click', handle);
-      }
-    };
-  });
+  const handle = (e: any) => {
+    console.log('handleInput');
+    let target = e.target || e.srcElement;
+    if (!!target && target.tagName.toLowerCase() === 'span') {
+      setchatValue(chatValue + target.innerHTML);
+    }
+    e.stopPropagation();
+  };
+
   const goback = () => {};
   const openSimpleDialog = () => {};
   const imgupload = () => {};
@@ -51,14 +48,7 @@ export default function ChatView() {
       if (chatValue.length > 200) {
         alert('请输入100字以内');
       }
-
       const msg = inHTMLData(chatValue);
-
-      // if (store) {
-      //   let userName = (store as any).username;
-      //   setuserName(userName);
-      // }
-
       const { userid, src } = myMessageStore.userInfo;
       const obj: any = {
         username: userid,
@@ -83,20 +73,6 @@ export default function ChatView() {
   };
 
   const fileup = () => {};
-  const handle = (e: any) => {
-    console.log('handle');
-    let target = e.target || e.srcElement;
-    if (!!target && target.tagName.toLowerCase() === 'span') {
-      setchatValue(chatValue + target.innerHTML);
-    }
-    e.stopPropagation();
-  };
-  const bindEmojiClick = () => {
-    console.log('bindEmojiClick');
-    if (emojiDom) {
-      (emojiDom as any).current.addEventListener('click', handle);
-    }
-  };
 
   return (
     <div className="container">
@@ -136,63 +112,8 @@ export default function ChatView() {
           </div>
 
           <div className="fun-li emoji">
-            <i className="iconfont icon-smile"></i>
-            <div className="emoji-content" v-show="getEmoji">
-              <div className="emoji-tabs">
-                <div className="emoji-container" ref={emojiDom}>
-                  <div
-                    className="emoji-block"
-                    style={{
-                      width: Math.ceil(emoji.people.length / 5) * 48 + 'px',
-                    }}
-                  >
-                    {emoji.people.map((item, index) => {
-                      return <span key={item}>{item}</span>;
-                    })}
-                  </div>
-                  <div
-                    className="emoji-block"
-                    style={{
-                      width: Math.ceil(emoji.nature.length / 5) * 48 + 'px',
-                    }}
-                  >
-                    {emoji.nature.map((item, index) => {
-                      return <span key={item}>{item}</span>;
-                    })}
-                  </div>
-                  <div
-                    className="emoji-block"
-                    style={{
-                      width: Math.ceil(emoji.items.length / 5) * 48 + 'px',
-                    }}
-                  >
-                    {emoji.items.map((item, index) => {
-                      return <span key={item}>{item}</span>;
-                    })}
-                  </div>
-                  <div
-                    className="emoji-block"
-                    style={{
-                      width: Math.ceil(emoji.place.length / 5) * 48 + 'px',
-                    }}
-                  >
-                    {emoji.place.map((item, index) => {
-                      return <span key={item}>{item}</span>;
-                    })}
-                  </div>
-                  <div
-                    className="emoji-block"
-                    style={{
-                      width: Math.ceil(emoji.single.length / 5) * 48 + 'px',
-                    }}
-                  >
-                    {emoji.single.map((item, index) => {
-                      return <span key={item}>{item}</span>;
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <i className="iconfont icon-smile emoji-iconn"></i>
+            <EmojiPanel handle={handle} />
           </div>
           <div className="fun-li" onClick={handleTips}>
             <i className="icon iconfont icon-zanshang"></i>

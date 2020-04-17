@@ -15,7 +15,9 @@ class MessageStore {
     id: 'id',
     token: 'token',
   };
-  @observable emojiShow = false;
+  @observable flagState = {
+    emojiShow: false,
+  };
   @action.bound setMessageInfo(messageInfo: IMessageProps, roomid: string) {
     if (this.roomdetail[roomid]) {
       this.roomdetail[roomid].push(messageInfo);
@@ -25,7 +27,10 @@ class MessageStore {
     }
   }
   @action.bound setEmoji(value: boolean) {
-    this.emojiShow = value;
+    this.flagState.emojiShow = value;
+  }
+  get getEmoji() {
+    return this.flagState.emojiShow;
   }
 
   // 列表数据
