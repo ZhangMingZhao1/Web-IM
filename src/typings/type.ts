@@ -19,5 +19,5 @@ export interface IMessageProps {
   username?: any;
   src?: any;
   time?: any;
-  key: any;
+  // key: any;
 }

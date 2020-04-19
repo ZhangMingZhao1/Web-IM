@@ -6,7 +6,8 @@ import { IMessageProps } from 'typings/type';
 import './index.less';
 
 export default function Message(props: IMessageProps) {
-  const { isSelf, img, loading, isLast, msg, key, username } = props;
+  const { isSelf, img, loading, isLast, msg, username } = props;
+  // console.log('key', key);
   const maxWidth = 200;
   const maxHeight = 200;
 

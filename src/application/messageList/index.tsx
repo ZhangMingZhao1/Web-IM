@@ -15,16 +15,17 @@ export default function MessageList(props: IMessageListProps) {
   const container = {};
   const username = '';
   const roomdetailArr = myMessageStore.roomdetail[roomId] || [];
-
+  console.log('roomdetailArr', roomdetailArr);
   const MessageList = roomdetailArr.map((obj, index) => {
     return (
       <Message
         avatarClick={handleInfo}
         flexTouch={hadnleTouch}
         retry={handleRetry}
-        key={obj.id}
+        // 这里的列表不会做移动和删除操作，所以这里的index做key其实没影响
+        key={index}
         isSelf={obj.username === username}
-        id={obj.id}
+        // id={index}
         username={obj.username}
         head={obj.src}
         msg={obj.msg}
