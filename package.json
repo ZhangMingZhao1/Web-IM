@@ -61,7 +61,7 @@
     "redux-thunk": "^2.3.0",
     "resolve": "1.10.0",
     "rsuite": "^4.0.3",
-    "socket.io": "^1.7.3",
+    "socket.io": "^2.4.0",
     "uuid": "^7.0.3",
     "xss-filters-es6": "^1.0.0"
   },
